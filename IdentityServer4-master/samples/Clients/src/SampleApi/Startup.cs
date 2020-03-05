@@ -58,6 +58,7 @@ namespace SampleApi
                     options.AllowedCertificateTypes = CertificateTypes.All;
                 });
             
+            // todo: change to Scope
             services.AddAuthorization(options =>
             {
                 var policyBuilder = new AuthorizationPolicyBuilder()
