@@ -31,7 +31,7 @@ namespace ConsoleClientCredentialsFlow
             {
                 Address = disco.TokenEndpoint,
 
-                ClientId = "client",
+                ClientId = "publicClient",
                 ClientSecret = "secret"
             });
 
@@ -49,10 +49,11 @@ namespace ConsoleClientCredentialsFlow
             };
 
             client.SetBearerToken(token);
-            var response = await client.GetStringAsync("identity");
-
-            "\n\nService claims:".ConsoleGreen();
-            Console.WriteLine(JArray.Parse(response));
+            var response1 = await client.GetStringAsync("identity/public");
+            Console.WriteLine(response1);
+            
+            var response2 = await client.GetAsync("identity/private");
+            Console.WriteLine(response2.StatusCode);
         }
     }
 }
