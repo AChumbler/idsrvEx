@@ -31,18 +31,13 @@ namespace ConsoleResourceOwnerFlow
             {
                 Address = disco.TokenEndpoint,
 
-                ClientId = "roclient",
+                ClientId = "privateClient",
                 ClientSecret = "secret",
 
                 UserName = "bob",
                 Password = "bob",
 
-                Scope = "api1 api2.read_only",
-
-                Parameters =
-                {
-                    { "acr_values", "tenant:custom_account_store1 foo bar quux" }
-                }
+                Scope = "api1",
             });
 
             if (response.IsError) throw new Exception(response.Error);
@@ -59,10 +54,11 @@ namespace ConsoleResourceOwnerFlow
             };
 
             client.SetBearerToken(token);
-            var response = await client.GetStringAsync("identity");
-
-            "\n\nService claims:".ConsoleGreen();
-            Console.WriteLine(JArray.Parse(response));
+            var response1 = await client.GetStringAsync("identity/public");
+            Console.WriteLine(response1);
+            
+            var response2 = await client.GetStringAsync("identity/private");
+            Console.WriteLine(response2);
         }
     }
 }

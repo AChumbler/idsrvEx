@@ -15,6 +15,32 @@ namespace Host.Configuration
         {
             return new List<Client>
             {
+                new Client
+                {
+                    ClientId = "publicClient",
+                    ClientSecrets = { new Secret("secret".Sha256()) },
+
+                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+                    AllowedScopes = { "api1"}
+                },
+                
+                new Client
+                {
+                    ClientId = "privateClient",
+                    ClientSecrets = 
+                    {
+                        new Secret("secret".Sha256())
+                    },
+
+                    AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
+
+                    AllowOfflineAccess = true,
+                    AllowedScopes = 
+                    {
+                        "api1"
+                    }
+                },
+                
                 ///////////////////////////////////////////
                 // Console Client Credentials Flow Sample
                 //////////////////////////////////////////

@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System.Linq;
 
 namespace SampleApi.Controllers
 {
     [Route("identity")]
-    [Authorize]
     public class IdentityController : ControllerBase
     {
         private readonly ILogger<IdentityController> _logger;
@@ -17,12 +15,19 @@ namespace SampleApi.Controllers
         }
 
         [HttpGet]
-        public ActionResult Get()
+        [Route("private")]
+        [Authorize("PrivatePolicy")]
+        public ActionResult GetPrivateResource()
         {
-            var claims = User.Claims.Select(c => new { c.Type, c.Value });
-            _logger.LogInformation("claims: {claims}", claims);
+            return new JsonResult("This is private resource");
+        }
 
-            return new JsonResult(claims);
+        [HttpGet]
+        [Route("public")]
+        [Authorize]
+        public ActionResult GetPublicResource()
+        {
+            return new JsonResult("This is public resource");
         }
     }
 }
